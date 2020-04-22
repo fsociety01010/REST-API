@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API</title>
+    <style>
+        [v-cloak] {
+            display: none
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .card {
+            padding: -1rem;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="container pt-3" id="app" v-cloak>
+        <H2>REST API</H2>
+
+        <form class="main form-group mb-2" @submit.prevent="createContact">
+            <div class="form-group mr-2">
+                <label for="name" class="mr-2">Name</label>
+                <input type="text" class="form-control" id="name" v-model="form.name">
+            </div>
+            <div class="form-group mr-2 ">
+                <label for="value" class="mr-2">Value</label>
+                <input type="text" class="form-control" id="value" v-model="form.value">
+            </div>
+            <button class="btn btn-primary" type="submit" :disabled="!canCreate">Create</button>
+        </form>
+        <hr>
+        <div v-if="loading">
+            <loader />
+        </div>
+        <div v-else-if="contacts.length">
+            <div class="card mb-3" v-for="contact in contacts">
+                <div class="card-body">
+                    <h5 class="card-title" :style="{color:contact.marked ? 'red' : 'black'}">{{contact.name}}</h5>
+                    <p class="card-text">{{contact.value}}</p>
+                    <button class="btn btn-primary" @click="markContact(contact.id)"
+                        :disabled="contact.marked">Mark</button>
+                    <button class="btn btn-danger" @click="deleteContact(contact.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+        <p v-else class="pt-3">Сontacts not found</p>
+    </div>
+
+    <script type="module" src="frontend.js"></script>
+</body>
+
+</html>
